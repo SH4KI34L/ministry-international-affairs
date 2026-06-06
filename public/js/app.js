@@ -88,6 +88,12 @@ function setupEventListeners() {
         resetPasswordForm.addEventListener('submit', handleResetPassword);
     }
 
+    // Change Username Form
+    const changeUsernameForm = document.getElementById('changeUsernameForm');
+    if (changeUsernameForm) {
+        changeUsernameForm.addEventListener('submit', handleChangeUsername);
+    }
+
     // Close modals when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
@@ -194,6 +200,7 @@ function updateUserSection() {
     const userSection = document.getElementById('userSection');
     userSection.innerHTML = `
         <div id="userInfo">Welcome, ${currentUser.username} (${currentUser.role})</div>
+        <button class="secondary-btn" id="changeUsernameBtn">Change Username</button>
         <button class="secondary-btn" id="changePasswordBtn">Change Password</button>
         ${currentUser.role === 'admin' ? '<button class="secondary-btn" id="resetPasswordBtn">Reset User Password</button>' : ''}
         <button class="secondary-btn" id="logoutBtn">Logout</button>
@@ -203,6 +210,9 @@ function updateUserSection() {
     document.getElementById('logoutBtn').addEventListener('click', handleLogout);
     document.getElementById('changePasswordBtn').addEventListener('click', () => {
         document.getElementById('changePasswordModal').style.display = 'block';
+    });
+    document.getElementById('changeUsernameBtn').addEventListener('click', () => {
+        document.getElementById('changeUsernameModal').style.display = 'block';
     });
     
     if (currentUser.role === 'admin') {
@@ -368,6 +378,34 @@ function handleResetPassword(e) {
     .catch(err => {
         console.error('Error resetting password:', err);
         alert('Error resetting password');
+    });
+}
+
+function handleChangeUsername(e) {
+    e.preventDefault();
+    const newUsername = document.getElementById('newUsername').value;
+    const currentPassword = document.getElementById('currentPasswordForUsername').value;
+
+    fetch('/api/change-username', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newUsername, currentPassword })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            document.getElementById('changeUsernameModal').style.display = 'none';
+            document.getElementById('changeUsernameForm').reset();
+            currentUser = data.user;
+            updateUserSection();
+        } else {
+            alert(data.message || 'Failed to change username');
+        }
+    })
+    .catch(err => {
+        console.error('Error changing username:', err);
+        alert('Error changing username');
     });
 }
 

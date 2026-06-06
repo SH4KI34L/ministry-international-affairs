@@ -259,6 +259,47 @@ app.post('/api/reset-password', async (req, res) => {
     }
 });
 
+// Change Username (logged in user)
+app.post('/api/change-username', async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.json({ success: false, message: 'Not logged in' });
+        }
+        
+        const { newUsername, currentPassword } = req.body;
+        const users = readData(DATA_FILES.users);
+        const userIndex = users.findIndex(u => u.id === req.session.user.id);
+        
+        if (userIndex === -1) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+        
+        // Check current password
+        const passwordMatch = await bcrypt.compare(currentPassword, users[userIndex].password);
+        if (!passwordMatch) {
+            return res.json({ success: false, message: 'Current password is incorrect' });
+        }
+        
+        // Check if new username exists
+        const existingUser = users.find(u => u.username === newUsername && u.id !== req.session.user.id);
+        if (existingUser) {
+            return res.json({ success: false, message: 'Username already exists' });
+        }
+        
+        // Update username
+        users[userIndex].username = newUsername;
+        writeData(DATA_FILES.users, users);
+        
+        // Update session
+        req.session.user.username = newUsername;
+        
+        res.json({ success: true, message: 'Username changed successfully!', user: req.session.user });
+    } catch (error) {
+        console.error('Change username error:', error);
+        res.json({ success: false, message: 'Internal server error' });
+    }
+});
+
 // Get announcements
 app.get('/api/announcements', (req, res) => {
     const announcements = readData(DATA_FILES.announcements);
