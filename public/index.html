@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry of International Affairs - Committee Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Ministry of International Affairs</h1>
+            <h2>Committee Portal</h2>
+        </div>
+        <div class="header-right">
+            <!-- Inbox Widget -->
+            <div class="inbox-widget" id="inboxWidget" style="display: none;">
+                <span class="inbox-icon">📬</span>
+                <span class="inbox-count" id="inboxCount">0</span>
+            </div>
+            <div class="user-section" id="userSection">
+                <button id="loginBtn">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-item active" data-section="announcements">Announcements</div>
+        <div class="nav-item" data-section="events">Planned Events</div>
+        <div class="nav-item" data-section="transport">Transport & Logistics</div>
+        <div class="nav-item" data-section="welfare">Welfare Concerns</div>
+        <div class="nav-item" data-section="inbox" id="inboxNav" style="display: none;">Inbox</div>
+        <div class="nav-item" data-section="upload" id="uploadNav" style="display: none;">Upload</div>
+    </nav>
+
+    <main>
+        <section id="announcements" class="content-section active">
+            <h2>Announcements</h2>
+            <div class="announcements-container" id="announcementsContainer"></div>
+        </section>
+
+        <section id="events" class="content-section">
+            <h2>Planned Events</h2>
+            <div class="events-container" id="eventsContainer"></div>
+        </section>
+
+        <section id="transport" class="content-section">
+            <h2>Transport & Logistics - Bus Schedule</h2>
+            <div class="bus-schedule-container" id="busScheduleContainer"></div>
+            <button class="submit-btn" id="addBusBtn" style="display: none;">Add Bus Schedule</button>
+        </section>
+
+        <section id="welfare" class="content-section">
+            <h2>Welfare Concerns</h2>
+            <div class="welfare-container" id="welfareContainer"></div>
+            <button class="submit-btn" id="submitWelfareBtn">Submit Welfare Concern</button>
+        </section>
+
+        <section id="inbox" class="content-section">
+            <h2>Inbox</h2>
+            <div class="inbox-container" id="inboxContainer"></div>
+        </section>
+
+        <section id="upload" class="content-section">
+            <h2>Upload Information</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="uploadType">Section:</label>
+                    <select id="uploadType">
+                        <option value="announcement">Announcement</option>
+                        <option value="event">Event</option>
+                        <option value="bus">Bus Schedule</option>
+                        <option value="welfare">Welfare Concern</option>
+                        <option value="inbox">Inbox Message</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="uploadTitle">Title:</label>
+                    <input type="text" id="uploadTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="uploadDescription">Description/Message:</label>
+                    <textarea id="uploadDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="uploadImage">Image (optional):</label>
+                    <input type="file" id="uploadImage" accept="image/*">
+                </div>
+                <div class="form-group" id="eventDateGroup" style="display: none;">
+                    <label for="eventDate">Date (for events):</label>
+                    <input type="date" id="eventDate">
+                </div>
+                <div class="form-group" id="busTimeGroup" style="display: none;">
+                    <label for="busTime">Departure Time (for buses):</label>
+                    <input type="time" id="busTime">
+                </div>
+                <div class="form-group" id="busRouteGroup" style="display: none;">
+                    <label for="busRoute">Route (for buses):</label>
+                    <input type="text" id="busRoute" placeholder="e.g., Airport to Headquarters">
+                </div>
+                <button type="submit" class="submit-btn">Upload</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="authTitle">Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group password-group" id="confirmPasswordGroup" style="display: none;">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword">
+                    <button type="button" class="toggle-password" data-target="confirmPassword">👁️</button>
+                </div>
+                <div class="form-group password-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                    <button type="button" class="toggle-password" data-target="password">👁️</button>
+                </div>
+                <button type="submit" class="submit-btn" id="authSubmitBtn">Login</button>
+            </form>
+            <div style="margin-top: 20px; text-align: center;">
+                <span id="authToggleText">Don't have an account?</span>
+                <button id="authToggleBtn"
+                    style="background: none; border: none; color: #6a11cb; cursor: pointer; font-size: 16px; text-decoration: underline;">Sign
+                    Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welfare Concern Modal -->
+    <div id="welfareModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Submit Welfare Concern</h2>
+            <form id="welfareForm">
+                <div class="form-group">
+                    <label for="welfareTitle">Title:</label>
+                    <input type="text" id="welfareTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="welfareDescription">Description:</label>
+                    <textarea id="welfareDescription" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Change Password</h2>
+            <form id="changePasswordForm">
+                <div class="form-group password-group">
+                    <label for="oldPassword">Current Password:</label>
+                    <input type="password" id="oldPassword" required>
+                    <button type="button" class="toggle-password" data-target="oldPassword">👁️</button>
+                </div>
+                <div class="form-group password-group">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" required>
+                    <button type="button" class="toggle-password" data-target="newPassword">👁️</button>
+                </div>
+                <div class="form-group password-group">
+                    <label for="confirmNewPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmNewPassword" required>
+                    <button type="button" class="toggle-password" data-target="confirmNewPassword">👁️</button>
+                </div>
+                <button type="submit" class="submit-btn">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Reset User Password</h2>
+            <form id="resetPasswordForm">
+                <div class="form-group">
+                    <label for="resetUsername">Username to Reset:</label>
+                    <input type="text" id="resetUsername" required>
+                </div>
+                <div class="form-group password-group">
+                    <label for="newResetPassword">New Temporary Password:</label>
+                    <input type="password" id="newResetPassword" required>
+                    <button type="button" class="toggle-password" data-target="newResetPassword">👁️</button>
+                </div>
+                <button type="submit" class="submit-btn">Reset Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
