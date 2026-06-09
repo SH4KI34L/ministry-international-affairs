@@ -230,35 +230,10 @@
                 return false;
             });
 
-            // Disable common devtools shortcuts
+            // Disable view source shortcut (Ctrl+U)
             document.addEventListener('keydown', function(e) {
-                // F12
-                if (e.keyCode === 123) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+I
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+J
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                    e.preventDefault();
-                    return false;
-                }
                 // Ctrl+U
                 if (e.ctrlKey && e.keyCode === 85) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+C
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+K
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 75) {
                     e.preventDefault();
                     return false;
                 }
@@ -284,9 +259,6 @@
                 e.preventDefault();
                 return false;
             });
-
-            // Advanced devtools detection disabled as requested
-            // Devtools shortcuts and right-click still blocked
         })();
     </script>
 </body>
