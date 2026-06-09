@@ -237,6 +237,16 @@
                     return false;
                 }
             });
+
+            // Disable in-browser content editing
+            document.body.setAttribute('contenteditable', 'false');
+            document.designMode = 'off';
+
+            // Prevent accidental editing via drag/drop or other means
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.setAttribute('contenteditable', 'false');
+                document.designMode = 'off';
+            });
         })();
     </script>
 </body>
