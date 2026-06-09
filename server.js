@@ -487,8 +487,9 @@ app.delete('/api/inbox/:id', (req, res) => {
 
 // Initialize data and start server
 initDataFiles().then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server running at http://localhost:${PORT}`);
+        console.log(`Also accessible on your local network at your computer's IP address, e.g., http://192.168.x.x:${PORT}`);
     });
 }).catch(error => {
     console.error('Error initializing server:', error);
