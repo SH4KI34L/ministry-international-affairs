@@ -285,57 +285,8 @@
                 return false;
             });
 
-            // Advanced devtools detection
-            let devtoolsOpen = false;
-            const threshold = 160;
-            let lastTime = performance.now();
-            
-            const checkDevtools = function() {
-                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-                
-                // Check for debugger statement detection
-                const start = performance.now();
-                debugger;
-                const end = performance.now();
-                if (end - start > 100) {
-                    if (!devtoolsOpen) {
-                        devtoolsOpen = true;
-                        takeAction();
-                    }
-                }
-                
-                // Check window dimensions
-                if (widthThreshold || heightThreshold) {
-                    if (!devtoolsOpen) {
-                        devtoolsOpen = true;
-                        takeAction();
-                    }
-                } else {
-                    devtoolsOpen = false;
-                }
-            };
-            
-            const takeAction = function() {
-                alert('Developer tools are not allowed!');
-                window.location.href = 'about:blank';
-            };
-            
-            // Check every 500ms
-            setInterval(checkDevtools, 500);
-
-            // Console.log detection
-            const originalLog = console.log;
-            console.log = function() {
-                if (!devtoolsOpen) {
-                    devtoolsOpen = true;
-                    takeAction();
-                }
-                originalLog.apply(console, arguments);
-            };
-            console.warn = console.log;
-            console.error = console.log;
-            console.info = console.log;
+            // Advanced devtools detection disabled as requested
+            // Devtools shortcuts and right-click still blocked
         })();
     </script>
 </body>
