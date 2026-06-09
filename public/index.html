@@ -222,45 +222,6 @@
     </div>
 
     <script src="js/app.js"></script>
-    <script>
-        (function() {
-            // Disable right-click context menu
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
-
-            // Disable view source shortcut (Ctrl+U)
-            document.addEventListener('keydown', function(e) {
-                // Ctrl+U
-                if (e.ctrlKey && e.keyCode === 85) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+S
-                if (e.ctrlKey && e.keyCode === 83) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-
-            // Disable drag and drop
-            document.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-
-            // Disable text selection
-            document.addEventListener('selectstart', function(e) {
-                const tag = e.target.tagName;
-                if (tag === 'INPUT' || tag === 'TEXTAREA') {
-                    return;
-                }
-                e.preventDefault();
-                return false;
-            });
-        })();
-    </script>
 </body>
 
 </html>
